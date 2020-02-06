@@ -4,7 +4,7 @@ import os
 import subprocess
 import glob
 from queue import Queue
-from bottle import route, run, Bottle, request, static_file, HTTPResponse
+from bottle import route, run, Bottle, request, static_file, HTTPResponse, redirect
 from threading import Thread
 import youtube_dl
 from pathlib import Path
@@ -30,6 +30,10 @@ app_defaults = {
 def dl_queue_list():
     return static_file('index.html', root='./')
 
+@app.route('/youtube-dl/')
+@app.route('/')
+def redirectToCorrectIndexURL():
+    redirect("/youtube-dl")
 
 @app.route('/youtube-dl/static/:filename#.*#')
 def server_static(filename):
